@@ -20,6 +20,7 @@ jobs:
         run: echo "HEAD_COMMIT_MSG=$(git show -s --format=%s)" >> $GITHUB_OUTPUT
   build:
     needs: check_skip_flags
+    if: "!contains(needs.check_skip_flags.outputs.head-commit-message, '[skip-build]')"
     strategy:
       matrix:
         go-version: [1.19.X, 1.20.x]
