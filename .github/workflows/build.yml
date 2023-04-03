@@ -33,6 +33,8 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version: ${{ matrix.go-version }}
+      - name: Display Go version
+        run: go version
       - name: Test
         run: go test ./...
       - name: Build Linux/MacOs
@@ -46,4 +48,4 @@ jobs:
         with:
           name: ngrok-file-server_${{ matrix.os }}
           path: ./bin/*
-          retention-days: 1
+          retention-days: 30
