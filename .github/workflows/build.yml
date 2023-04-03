@@ -36,10 +36,10 @@ jobs:
       - name: Test
         run: go test ./...
       - name: Build Linux/MacOs
-        if: ${{!contains(matrix.os,'windows')}}
+        if: ${{ !contains(matrix.os,'windows') }}
         run: go build -o bin/ngrok-file-server -v cmd/main.go
       - name: Build Windows
-        if: ${{contains(matrix.os,'windows')}}
+        if: ${{ contains(matrix.os,'windows') }}
         run: go build -o bin/ngrok-file-server.exe -v cmd/main.go
       - name: Archive
         uses: actions/upload-artifact@v3
