@@ -27,13 +27,19 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - name: checkout
+      - name: Checkout
         uses: actions/checkout@v3
-      - name: setup
+      - name: Setup
         uses: actions/setup-go@v4
         with:
           go-version: ${{ matrix.go-version }}
-      - name: test
+      - name: Test
         run: go test ./...
-      - name: build
+      - name: Build
         run: go build -o bin/ -v cmd/main.go
+      - name: Archive
+        uses: actions/upload-artifact@v3
+        with:
+          name: ngrok-file-server_${{ matrix.os }}
+          path: ./bin/*
+          retention-days: 5
