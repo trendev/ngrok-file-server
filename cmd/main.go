@@ -52,12 +52,25 @@ func methodColor(m string) string {
 	}
 }
 
+func statusCodeColor(c int) string {
+	switch {
+	case c >= http.StatusOK && c < http.StatusMultipleChoices:
+		return green
+	case c >= http.StatusMultipleChoices && c < http.StatusBadRequest:
+		return white
+	case c >= http.StatusBadRequest && c < http.StatusInternalServerError:
+		return yellow
+	default:
+		return red
+	}
+}
+
 func logRequest(r http.Request) {
 	log.Printf("[%s] --> %s%s%s %s", r.RemoteAddr, methodColor(r.Method), r.Method, reset, r.URL)
 }
 
 func logResponse(w ResponseWriterWrapper, r *http.Request) {
-	log.Printf("[%s] <-- %d %s", r.RemoteAddr, w.c, http.StatusText(w.c))
+	log.Printf("[%s] <-- %s%d%s %s", r.RemoteAddr, statusCodeColor(w.c), w.c, reset, http.StatusText(w.c))
 }
 
 func main() {
