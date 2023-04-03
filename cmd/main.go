@@ -20,6 +20,14 @@ func (w *ResponseWriterWrapper) WriteHeader(c int) {
 	w.ResponseWriter.WriteHeader(c)
 }
 
+func logRequest(r http.Request) {
+	log.Printf("[%s] --> %s %s \n", r.RemoteAddr, r.Method, r.URL)
+}
+
+func logResponse(w ResponseWriterWrapper, r *http.Request) {
+	log.Printf("[%s] <-- %d %s", r.RemoteAddr, w.c, http.StatusText(w.c))
+}
+
 func main() {
 	ctx := context.Background()
 	fs := http.FileServer(http.Dir("./"))
@@ -32,10 +40,10 @@ func main() {
 	}
 	fmt.Println("ngrok ingress url: ", l.URL())
 	http.Serve(l, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		log.Printf("[%s] --> %s %s \n", r.RemoteAddr, r.Method, r.URL)
+		logRequest(*r)
 		w.Header().Add("x-ngrok-file-server", "trendev")
 		ww := &ResponseWriterWrapper{w, http.StatusOK}
 		fs.ServeHTTP(ww, r)
-		log.Printf("[%s] <-- %d %s", r.RemoteAddr, ww.c, http.StatusText(ww.c))
+		logResponse(*ww, r)
 	}))
 }
