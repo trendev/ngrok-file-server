@@ -33,12 +33,9 @@ func main() {
 	fmt.Println("ngrok ingress url: ", l.URL())
 	http.Serve(l, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		log.Printf("[%s] --> %s %s \n", r.RemoteAddr, r.Method, r.URL)
-
 		w.Header().Add("x-ngrok-file-server", "trendev")
 		ww := &ResponseWriterWrapper{w, http.StatusOK}
-
 		fs.ServeHTTP(ww, r)
-
 		log.Printf("[%s] <-- %d %s", r.RemoteAddr, ww.c, http.StatusText(ww.c))
 	}))
 }
