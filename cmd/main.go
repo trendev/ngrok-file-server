@@ -12,7 +12,7 @@ import (
 
 func main() {
 	ctx := context.Background()
-	handler := http.FileServer(http.Dir("./"))
+	fs := http.FileServer(http.Dir("./"))
 	l, err := ngrok.Listen(ctx,
 		config.HTTPEndpoint(),
 		ngrok.WithAuthtokenFromEnv(),
@@ -21,5 +21,9 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println("ngrok ingress url: ", l.URL())
-	http.Serve(l, handler)
+	http.Serve(l, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Add("x-ngrok-file-server", "trendev")
+		fs.ServeHTTP(w, r)
+		log.Printf("%s %s %s\n", r.RemoteAddr, r.Method, r.URL)
+	}))
 }
