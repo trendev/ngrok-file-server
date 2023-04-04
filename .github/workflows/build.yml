@@ -73,8 +73,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=schedule
-            type=ref,event=branch
-            type=ref,event=pr
+            type=ref,event=pr,value={{branch}}
             type=raw,value=latest,enable=${{ endsWith(GitHub.ref, 'main') }}
             type=raw,event=branch,value={{branch}}
             type=semver,pattern={{raw}}
