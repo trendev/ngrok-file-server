@@ -24,7 +24,7 @@ jobs:
         run: echo "HEAD_COMMIT_MSG=$(git show -s --format=%s)" >> $GITHUB_OUTPUT
   test:
     needs: [check_skip_flags]
-    if: "!contains(needs.check_skip_flags.outputs.head-commit-message, '[skip-build]')"
+    if: "!contains(needs.check_skip_flags.outputs.head-commit-message, '[skip-test]')"
     strategy:
       matrix:
         go-version: [1.19.X, 1.20.x]
@@ -41,18 +41,18 @@ jobs:
         run: go version
       - name: Test
         run: go test -v ./...
-      # - name: Build Linux/MacOs
-      #   if: ${{ !contains(matrix.os,'windows') }}
-      #   run: go build -o bin/ngrok-file-server -v api/main.go
-      # - name: Build Windows
-      #   if: ${{ contains(matrix.os,'windows') }}
-      #   run: go build -o bin/ngrok-file-server.exe -v api/main.go
-      # - name: Archive
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: ngrok-file-server_${{ matrix.os }}
-      #     path: ./bin/*
-      #     retention-days: 30
+      - name: Get coverage report
+        run: go test -coverprofile=coverage.out ./...
+      - name: Convert coverage report (HTML)
+        run: go tool cover -html=coverage.out -o coverage_go${{ matrix.go-version }}_${{ matrix.os }}.html
+      - name: Archive code coverage
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage
+          path: ./coverage*.html
+          retention-days: 30
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
   docker:
     needs: [test]
     if: "!contains(needs.check_skip_flags.outputs.head-commit-message, '[skip-docker]')"
