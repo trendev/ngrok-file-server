@@ -44,8 +44,8 @@ jobs:
       - name: Get coverage report
         run: go test -coverprofile=coverage ./...
       - name: Convert coverage report (HTML)
-        run: go tool cover -html=coverage -o coverage_go${{ matrix.go-version }}_${{ matrix.os }}.html
-      - name: Archive code coverage
+        run: go tool cover -html=coverage.out -o coverage_go${{ matrix.go-version }}_${{ matrix.os }}.html
+      - name: Archive code coverage.out
         uses: actions/upload-artifact@v3
         with:
           name: code-coverage
