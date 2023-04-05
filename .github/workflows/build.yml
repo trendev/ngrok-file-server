@@ -73,11 +73,11 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=schedule
-            type=ref,event=pr,prefix={{branch}}-pr-
+            type=ref,event=pr,prefix=${{github.ref_name}}-pr-
             type=raw,value=latest,enable=${{ endsWith(GitHub.ref, 'main') }}
             type=raw,event=branch,value={{branch}}
             type=semver,pattern={{raw}}
-            type=sha,format=long
+            type=sha,format=long,prefix={{branch}}-
       - name: Build and push Docker image
         uses: docker/build-push-action@v4.0.0
         with:
