@@ -65,9 +65,9 @@ func statusCodeColor(c int) string {
 }
 
 func LogRequest(r http.Request) {
-	log.Printf("[%s] --> %s%s%s %s", r.RemoteAddr, methodColor(r.Method), r.Method, reset, r.URL)
+	log.Printf("[%s] -->> %s%s%s %s", r.RemoteAddr, methodColor(r.Method), r.Method, reset, r.URL)
 }
 
 func LogResponse(w responseWriterWrapper, r *http.Request) {
-	log.Printf("[%s] <-- %s%d%s %s", r.RemoteAddr, statusCodeColor(w.c), w.c, reset, http.StatusText(w.c))
+	log.Printf("[%s] <<-- %s%d%s %s", r.RemoteAddr, statusCodeColor(w.c), w.c, reset, http.StatusText(w.c))
 }
