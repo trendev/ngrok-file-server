@@ -13,7 +13,7 @@ import (
 
 func main() {
 	ctx := context.Background()
-	fs := http.FileServer(http.Dir("./"))
+	fs := http.FileServer(http.Dir("./shared"))
 	l, err := ngrok.Listen(ctx,
 		config.HTTPEndpoint(),
 		ngrok.WithAuthtokenFromEnv(),
