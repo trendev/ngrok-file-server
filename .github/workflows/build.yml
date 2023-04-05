@@ -1,7 +1,5 @@
 on:
   push:
-    branches:
-      - main
   pull_request:
 
 env:
@@ -73,8 +71,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=schedule
-            type=ref,event=pr
-            type=raw,event=push,value={{branch}}
+            type=ref,event=push
             type=raw,value=latest,enable=${{ endsWith(GitHub.ref, 'main') }}
             type=raw,event=branch,value={{branch}}
             type=semver,pattern={{raw}}
