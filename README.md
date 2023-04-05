@@ -12,4 +12,4 @@
 
 ### latest/stable
 
-`docker run -it --rm -e NGROK_AUTHTOKEN="YOUR_TOKEN" ghcr.io/trendev/ngrok-file-server`
+`docker run -it --rm -e NGROK_AUTHTOKEN="YOUR_TOKEN" -v $(pwd):/shared ghcr.io/trendev/ngrok-file-server`
