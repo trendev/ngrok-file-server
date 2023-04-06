@@ -8,7 +8,7 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
-name: Build & Save artifacts
+name: Test, Build and Save
 jobs:
   check_skip_flags:
     runs-on: ubuntu-latest
