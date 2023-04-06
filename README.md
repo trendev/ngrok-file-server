@@ -17,7 +17,7 @@ It's **fast** :rocket:, **secured** :lock: and pretty **lite** :mouse2:
 What do you really need ?
 
 ### ngrok token
-**https tunneling** (port-forwarding) is provided by [ngork](https://ngrok.com/) go implementation. So, you **need a ngrok token** :key:
+**https tunneling** (port-forwarding) is provided by [ngrok](https://ngrok.com/) go implementation. So, you **need a ngrok token** :key:
 
 ... if don't have a ngrok account, don't worry, **it's free** :grimacing:
 
