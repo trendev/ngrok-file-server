@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -11,11 +12,27 @@ import (
 	"golang.ngrok.com/ngrok/config"
 )
 
+func setConfigHTTPEndpoint() config.Tunnel {
+	p := flag.String("provider", "", "oauth2 provider")
+	d := flag.String("domain", "", "oauth2 authorized domain")
+	flag.Parse()
+	if *p != "" && *d == "" {
+		return config.HTTPEndpoint(config.WithOAuth(*p),
+			config.WithRequestHeader("email", "${.oauth.user.email}"))
+	}
+	if *p != "" && *d != "" {
+		return config.HTTPEndpoint(config.WithOAuth(*p, config.WithAllowOAuthDomain(*d)),
+			config.WithRequestHeader("email", "${.oauth.user.email}"))
+	}
+	return config.HTTPEndpoint()
+}
+
 func main() {
 	ctx := context.Background()
 	fs := http.FileServer(http.Dir("./shared"))
+
 	l, err := ngrok.Listen(ctx,
-		config.HTTPEndpoint(),
+		setConfigHTTPEndpoint(),
 		ngrok.WithAuthtokenFromEnv(),
 	)
 	if err != nil {
