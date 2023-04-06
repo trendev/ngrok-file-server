@@ -4,12 +4,18 @@
 
 [![codecov](https://codecov.io/gh/trendev/ngrok-file-server/branch/main/graph/badge.svg?token=YIWQFBITBF)](https://codecov.io/gh/trendev/ngrok-file-server)
 
-## ngrok
+`ngrok-file-server` is a tiny secured file server. 
 
-## docker build 
+You can **quickly share any content** running a docker container protected with **https**. 
 
-## docker run
+## Requirements
 
-### latest/stable
+What do you really need ?
+
+### ngrok account
+https is provided by ngrok go implementation, so, you need a ngrok token
+
+### docker
+If you're familiar with golang, you can build your own server but we recommand to use our docker image
 
 `docker run -it --rm -e NGROK_AUTHTOKEN="YOUR_TOKEN" -v $(pwd):/shared ghcr.io/trendev/ngrok-file-server`
