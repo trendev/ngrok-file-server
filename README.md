@@ -63,10 +63,10 @@ You can also control access using an oauth2 provider (like Google, Facebook, Git
 > you can find the supported list [here](https://ngrok.com/docs/cloud-edge/modules/oauth/#oauth-providers-supported-by-ngrok)
 
 ### Enable oauth2 authentication
-`docker run -it --rm -e NGROK_AUTHTOKEN="YOUR_TOKEN" -v $(pwd):/shared ghcr.io/trendev/ngrok-file-server --provider=google`
+`docker run -it --rm -e NGROK_AUTHTOKEN=$NGROK_AUTHTOKEN -v $(pwd):/shared ghcr.io/trendev/ngrok-file-server --provider=google`
 
 ### Enable oauth2 authentication + domain control
-`docker run -it --rm -e NGROK_AUTHTOKEN="YOUR_TOKEN" -v $(pwd):/shared ghcr.io/trendev/ngrok-file-server --provider=google --domain=trendev.fr`
+`docker run -it --rm -e NGROK_AUTHTOKEN=$NGROK_AUTHTOKEN -v $(pwd):/shared ghcr.io/trendev/ngrok-file-server --provider=google --domain=trendev.fr`
 
 ## :hand: Something else ?
 
