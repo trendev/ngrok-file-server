@@ -1,6 +1,6 @@
 # ngrok-file-server
 
-[![Test, Build and Save](https://github.com/trendev/ngrok-file-server/actions/workflows/build.yml/badge.svg)](https://github.com/trendev/ngrok-file-server/actions/workflows/build.yml)
+[![Test, Build and Save](https://github.com/trendev/ngrok-file-server/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/trendev/ngrok-file-server/actions/workflows/build.yml)
 
 [![codecov](https://codecov.io/gh/trendev/ngrok-file-server/branch/main/graph/badge.svg?token=YIWQFBITBF)](https://codecov.io/gh/trendev/ngrok-file-server)
 
