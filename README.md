@@ -6,7 +6,9 @@
 
 `ngrok-file-server` is a tiny secured file server. 
 
-You can **quickly share any content** running a docker container protected with **https**. 
+You can **quickly share any content** running a simple docker container protected.
+
+It is **fast**, **secured** and so **lite**.
 
 ## Requirements
 
