@@ -58,7 +58,7 @@ You can browse your content and share the URL with anyone and access to your fil
 
 ## :cop: OAuth2 Protection
 
-You can also control access using a oauth2 provider (like Google, Facebook, Github, Linkedin, etc) and setting an authorized domain (for eg, only `trendev.fr` users).
+You can also control access using an oauth2 provider (like Google, Facebook, Github, Linkedin, etc) and setting an authorized domain (for eg, only `trendev.fr` users).
 
 > you can find the supported list [here](https://ngrok.com/docs/cloud-edge/modules/oauth/#oauth-providers-supported-by-ngrok)
 
