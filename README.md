@@ -37,6 +37,8 @@ Run the following docker command in order to share the content of your local pat
 `docker run -it --rm -e NGROK_AUTHTOKEN="YOUR_TOKEN" -v $(pwd):/shared ghcr.io/trendev/ngrok-file-server`
 > this example is based on Linux/MacOS usage. If you run `ngrok-file-server` on Windows, you may change local path command `$(pwd)` by something like `%cd%` or direcly set the path...
 
+> do not forget to replace "YOUR_TOKEN" by your ngrok token...
+
 It will pull our docker image and then, build and start a new container :thumbsup:
 
 You may see an output like this :
@@ -53,6 +55,18 @@ Paste the previous URL in your favorite web browser.
 And here we are :white_check_mark:
 
 You can browse your content and share the URL with anyone and access to your file server from anywhere :sunglasses:
+
+## :cop: OAuth2 Protection
+
+You can also control access using a oauth2 provider (like Google, Facebook, Github, Linkedin, etc) and setting an authorized domain (for eg, only `trendev.fr` users).
+
+> you can find the supported list [here](https://ngrok.com/docs/cloud-edge/modules/oauth/#oauth-providers-supported-by-ngrok)
+
+### Enable oauth2 authentication
+`docker run -it --rm -e NGROK_AUTHTOKEN="YOUR_TOKEN" -v $(pwd):/shared ghcr.io/trendev/ngrok-file-server --provider=google`
+
+### Enable oauth2 authentication + domain control
+`docker run -it --rm -e NGROK_AUTHTOKEN="YOUR_TOKEN" -v $(pwd):/shared ghcr.io/trendev/ngrok-file-server --provider=google --domain=trendev.fr`
 
 ## :hand: Something else ?
 
