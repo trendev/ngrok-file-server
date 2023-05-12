@@ -26,8 +26,8 @@ func (w *responseWriterWrapper) WriteHeader(c int) {
 	w.ResponseWriter.WriteHeader(c)
 }
 
-func NewResponseWriterWrapper(w http.ResponseWriter, c int) *responseWriterWrapper {
-	return &responseWriterWrapper{w, c}
+func NewResponseWriterWrapper(w http.ResponseWriter) *responseWriterWrapper {
+	return &responseWriterWrapper{w, http.StatusOK}
 }
 
 func methodColor(m string) string {
