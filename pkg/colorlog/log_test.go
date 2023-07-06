@@ -3,6 +3,8 @@ package colorlog
 import (
 	"fmt"
 	"net/http"
+	"net/url"
+	"strings"
 	"testing"
 )
 
@@ -118,4 +120,50 @@ func TestNewResponseWriterWrapper(t *testing.T) {
 		t.Errorf("NewResponseWriterWrapper cannot be nil")
 		t.FailNow()
 	}
+}
+
+func TestLogRequest(t *testing.T) {
+	r := http.Request{
+		Method:     "GET",
+		RemoteAddr: "10.10.10.10",
+		URL:        &url.URL{Path: "/trendev/path"},
+	}
+	s := CreateLogRequest(&r)
+	if !strings.Contains(s, "GET") {
+		t.Errorf("LogRequest string should contain GET, got %s", s)
+		t.FailNow()
+	}
+	if !strings.Contains(s, "10.10.10.10") {
+		t.Errorf("LogRequest string should contain \"10.10.10.10\", got %s", s)
+		t.FailNow()
+	}
+	if !strings.Contains(s, "/trendev/path") {
+		t.Errorf("LogRequest string should contain /trendev/path, got %s", s)
+		t.FailNow()
+	}
+	LogRequest(r)
+}
+
+func TestLogResponse(t *testing.T) {
+	r := http.Request{
+		Method:     "GET",
+		RemoteAddr: "10.10.10.10",
+	}
+	rw := NewResponseWriterWrapper(fakeHttpResponseWriter{})
+	rw.c = http.StatusAccepted
+
+	s := CreateLogResponse(*rw, &r)
+	if !strings.Contains(s, "Accepted") {
+		t.Errorf("LogResponse string should contain Accepted, got %s", s)
+		t.FailNow()
+	}
+	if !strings.Contains(s, "10.10.10.10") {
+		t.Errorf("LogResponse string should contain \"10.10.10.10\", got %s", s)
+		t.FailNow()
+	}
+	if !strings.Contains(s, fmt.Sprint(http.StatusAccepted)) {
+		t.Errorf("LogResponse string should contain %d, got %s", http.StatusAccepted, s)
+		t.FailNow()
+	}
+	LogResponse(*rw, &r)
 }

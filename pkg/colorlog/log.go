@@ -1,6 +1,7 @@
 package colorlog
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 )
@@ -64,10 +65,18 @@ func statusCodeColor(c int) string {
 	}
 }
 
+func CreateLogRequest(r *http.Request) string {
+	return fmt.Sprintf("[%s] -->> %s%s%s %s", r.RemoteAddr, methodColor(r.Method), r.Method, reset, r.URL)
+}
+
 func LogRequest(r http.Request) {
-	log.Printf("[%s] -->> %s%s%s %s", r.RemoteAddr, methodColor(r.Method), r.Method, reset, r.URL)
+	log.Println(CreateLogRequest(&r))
+}
+
+func CreateLogResponse(w responseWriterWrapper, r *http.Request) string {
+	return fmt.Sprintf("[%s] <<-- %s%d%s %s", r.RemoteAddr, statusCodeColor(w.c), w.c, reset, http.StatusText(w.c))
 }
 
 func LogResponse(w responseWriterWrapper, r *http.Request) {
-	log.Printf("[%s] <<-- %s%d%s %s", r.RemoteAddr, statusCodeColor(w.c), w.c, reset, http.StatusText(w.c))
+	log.Println(CreateLogResponse(w, r))
 }
