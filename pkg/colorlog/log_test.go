@@ -87,3 +87,35 @@ func TestMethodColor(t *testing.T) {
 		})
 	}
 }
+
+type fakeHttpResponseWriter struct{}
+
+func (f fakeHttpResponseWriter) Header() http.Header {
+	return http.Header{}
+}
+
+func (f fakeHttpResponseWriter) Write([]byte) (int, error) {
+	return 0, nil
+}
+
+func (f fakeHttpResponseWriter) WriteHeader(statusCode int) {}
+
+func TestWriteHeader(t *testing.T) {
+	s := http.StatusAccepted
+	rw := responseWriterWrapper{fakeHttpResponseWriter{}, http.StatusOK}
+	rw.WriteHeader(s)
+
+	if rw.c != s {
+		t.Errorf("incorrect status, got %d, want %d", rw.c, s)
+		t.FailNow()
+	}
+
+}
+
+func TestNewResponseWriterWrapper(t *testing.T) {
+	rw := NewResponseWriterWrapper(fakeHttpResponseWriter{})
+	if rw == nil {
+		t.Errorf("NewResponseWriterWrapper cannot be nil")
+		t.FailNow()
+	}
+}
