@@ -47,6 +47,14 @@ You may see an output like this :
 
 Copy the URL :memo:
 
+#### ... or start the server with a static domain !
+
+At first, you may claim a `static domain` (cf [ngrok static domain](https://ngrok.com/blog-post/free-static-domains-ngrok-users?utm_campaign=Monthly%20Newsletter&utm_medium=email&_hsmi=273371496&_hsenc=p2ANqtz--jWYbTK8jp0_nOfOtdv6J-xx3yPPThs-yue05TvNqnWnV4cddDpbDVOBgfdT9o-xuo6-7UUEBImW1PlHTFoh3ZCmJCtw&utm_content=273371496&utm_source=hs_email))
+
+`docker run -it --rm -e NGROK_AUTHTOKEN="YOUR_TOKEN" -v $(pwd):/shared ghcr.io/trendev/ngrok-file-server --static_domain={your_static_domain}.ngrok-free.app`
+
+This URL is easier to remember, isn't it ?
+
 ### :two: Visit the file server from anywhere
 
 Paste the previous URL in your favorite web browser.
