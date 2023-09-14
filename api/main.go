@@ -23,7 +23,6 @@ func setConfigHTTPEndpoint() config.Tunnel {
 	if *sd != "" {
 		opts = append(opts, config.WithDomain(*sd))
 	}
-
 	if *p != "" {
 		if *o2d != "" {
 			opts = append(opts, config.WithOAuth(*p, config.WithAllowOAuthDomain(*o2d)),
@@ -32,7 +31,6 @@ func setConfigHTTPEndpoint() config.Tunnel {
 			opts = append(opts, config.WithOAuth(*p), config.WithRequestHeader("email", "${.oauth.user.email}"))
 		}
 	}
-
 	return config.HTTPEndpoint(opts...)
 }
 
