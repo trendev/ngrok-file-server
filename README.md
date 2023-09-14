@@ -47,6 +47,14 @@ You may see an output like this :
 
 Copy the URL :memo:
 
+#### ... or start the server with a static domain !
+
+At first, you may claim a `static domain` (cf [ngrok static domain](https://ngrok.com/blog-post/free-static-domains-ngrok-users?utm_campaign=Monthly%20Newsletter&utm_medium=email&_hsmi=273371496&_hsenc=p2ANqtz--jWYbTK8jp0_nOfOtdv6J-xx3yPPThs-yue05TvNqnWnV4cddDpbDVOBgfdT9o-xuo6-7UUEBImW1PlHTFoh3ZCmJCtw&utm_content=273371496&utm_source=hs_email))
+
+`docker run -it --rm -e NGROK_AUTHTOKEN="YOUR_TOKEN" -v $(pwd):/shared ghcr.io/trendev/ngrok-file-server --static_domain={your_static_domain}.ngrok-free.app`
+
+This URL is easier to remember, isn't it ?
+
 ### :two: Visit the file server from anywhere
 
 Paste the previous URL in your favorite web browser.
@@ -58,15 +66,15 @@ You can browse your content and share the URL with anyone and access to your fil
 
 ## :cop: OAuth2 Protection
 
-You can also control access using an oauth2 provider (like Google, Facebook, Github, Linkedin, etc) and setting an authorized domain (for eg, only `trendev.fr` users).
+You can also control access using an oauth2 provider (like Google, Facebook, Github, Linkedin, etc) and setting an authorized oauth2_domain (for eg, only `trendev.fr` users).
 
 > you can find the supported list [here](https://ngrok.com/docs/cloud-edge/modules/oauth/#oauth-providers-supported-by-ngrok)
 
 ### Enable oauth2 authentication
 `docker run -it --rm -e NGROK_AUTHTOKEN=$NGROK_AUTHTOKEN -v $(pwd):/shared ghcr.io/trendev/ngrok-file-server --provider=google`
 
-### Enable oauth2 authentication + domain control
-`docker run -it --rm -e NGROK_AUTHTOKEN=$NGROK_AUTHTOKEN -v $(pwd):/shared ghcr.io/trendev/ngrok-file-server --provider=google --domain=trendev.fr`
+### Enable oauth2 authentication + oauth2_domain control
+`docker run -it --rm -e NGROK_AUTHTOKEN=$NGROK_AUTHTOKEN -v $(pwd):/shared ghcr.io/trendev/ngrok-file-server --provider=google --oauth2_domain=trendev.fr`
 
 ## :hand: Something else ?
 
