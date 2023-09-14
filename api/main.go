@@ -14,14 +14,14 @@ import (
 
 func setConfigHTTPEndpoint() config.Tunnel {
 	p := flag.String("provider", "", "oauth2 provider")
-	d := flag.String("domain", "", "oauth2 authorized domain")
+	o2d := flag.String("oauth2_domain", "", "oauth2 authorized oauth2_domain")
 	flag.Parse()
-	if *p != "" && *d == "" {
+	if *p != "" && *o2d == "" {
 		return config.HTTPEndpoint(config.WithOAuth(*p),
 			config.WithRequestHeader("email", "${.oauth.user.email}"))
 	}
-	if *p != "" && *d != "" {
-		return config.HTTPEndpoint(config.WithOAuth(*p, config.WithAllowOAuthDomain(*d)),
+	if *p != "" && *o2d != "" {
+		return config.HTTPEndpoint(config.WithOAuth(*p, config.WithAllowOAuthDomain(*o2d)),
 			config.WithRequestHeader("email", "${.oauth.user.email}"))
 	}
 	return config.HTTPEndpoint()

@@ -58,15 +58,15 @@ You can browse your content and share the URL with anyone and access to your fil
 
 ## :cop: OAuth2 Protection
 
-You can also control access using an oauth2 provider (like Google, Facebook, Github, Linkedin, etc) and setting an authorized domain (for eg, only `trendev.fr` users).
+You can also control access using an oauth2 provider (like Google, Facebook, Github, Linkedin, etc) and setting an authorized oauth2_domain (for eg, only `trendev.fr` users).
 
 > you can find the supported list [here](https://ngrok.com/docs/cloud-edge/modules/oauth/#oauth-providers-supported-by-ngrok)
 
 ### Enable oauth2 authentication
 `docker run -it --rm -e NGROK_AUTHTOKEN=$NGROK_AUTHTOKEN -v $(pwd):/shared ghcr.io/trendev/ngrok-file-server --provider=google`
 
-### Enable oauth2 authentication + domain control
-`docker run -it --rm -e NGROK_AUTHTOKEN=$NGROK_AUTHTOKEN -v $(pwd):/shared ghcr.io/trendev/ngrok-file-server --provider=google --domain=trendev.fr`
+### Enable oauth2 authentication + oauth2_domain control
+`docker run -it --rm -e NGROK_AUTHTOKEN=$NGROK_AUTHTOKEN -v $(pwd):/shared ghcr.io/trendev/ngrok-file-server --provider=google --oauth2_domain=trendev.fr`
 
 ## :hand: Something else ?
 
