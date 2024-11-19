@@ -16,7 +16,7 @@ jobs:
       head-commit-message: ${{ steps.get_head_commit_message.outputs.HEAD_COMMIT_MSG }}
     steps:
       - name: Get repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - name: Print head git commit message
@@ -32,9 +32,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v5
         with:
           go-version: ${{ matrix.go-version }}
       - name: Display Go version
@@ -46,29 +46,29 @@ jobs:
       - name: Convert coverage report (HTML)
         run: go tool cover -html=coverage.out -o coverage_go${{ matrix.go-version }}_${{ matrix.os }}.html
       - name: Archive code coverage
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: code-coverage
           path: ./coverage*.html
           retention-days: 30
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
   docker:
     needs: [test]
     if: ${{ !contains(needs.check_skip_flags.outputs.head-commit-message, '[skip-docker]') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Log in to the Container registry
-        uses: docker/login-action@v2.1.0
+        uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v4.3.0
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
@@ -78,7 +78,7 @@ jobs:
             type=semver,pattern={{raw}}
             type=sha,format=long
       - name: Build and push Docker image
-        uses: docker/build-push-action@v4.0.0
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
