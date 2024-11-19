@@ -53,6 +53,10 @@ jobs:
           retention-days: 30
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
+        with:
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }} # required
+          verbose: true
   docker:
     needs: [test]
     if: ${{ !contains(needs.check_skip_flags.outputs.head-commit-message, '[skip-docker]') }}
