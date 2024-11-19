@@ -1,6 +1,6 @@
 module github.com/trendev/ngrok-file-server
 
-go 1.22
+go 1.23
 
 require golang.ngrok.com/ngrok v1.9.1
 

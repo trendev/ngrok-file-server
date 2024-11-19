@@ -24,10 +24,10 @@ jobs:
         run: echo "HEAD_COMMIT_MSG=$(git show -s --format=%s)" >> $GITHUB_OUTPUT
   test:
     needs: [check_skip_flags]
-    if: "!contains(needs.check_skip_flags.outputs.head-commit-message, '[skip-test]')"
+    if: ${{ !contains(needs.check_skip_flags.outputs.head-commit-message, '[skip-test]') }}
     strategy:
       matrix:
-        go-version: [1.22.x]
+        go-version: [1.23.x]
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
@@ -55,7 +55,7 @@ jobs:
         uses: codecov/codecov-action@v3
   docker:
     needs: [test]
-    if: "!contains(needs.check_skip_flags.outputs.head-commit-message, '[skip-docker]')"
+    if: ${{ !contains(needs.check_skip_flags.outputs.head-commit-message, '[skip-docker]') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository

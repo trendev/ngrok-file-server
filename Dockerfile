@@ -1,5 +1,5 @@
 # use goland:lastest instead of golang:alpine because go git is not available in alpine version
-FROM golang:1.22 as builder
+FROM golang:1.23 AS builder
 WORKDIR /go/src/ngrok-file-server
 COPY . .
 RUN go mod tidy
