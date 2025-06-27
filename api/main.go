@@ -37,7 +37,7 @@ const config = `
 
 func setConfigHTTPEndpoint() []ngrok.EndpointOption {
 	var opts []ngrok.EndpointOption
-	p := flag.String("provider", "", "oauth2 provider")
+	p := flag.String("provider", "", "oauth2 provider (google, github, etc.)")
 	o2d := flag.String("oauth2_domain", "", "oauth2 authorized oauth2_domain")
 	flag.Parse()
 
@@ -48,21 +48,36 @@ func setConfigHTTPEndpoint() []ngrok.EndpointOption {
 
 	if *p != "" {
 		// Create OAuth action structure
-		a := gabs.New()
-		a.Set("oauth", "type")
-		a.Set(*p, "config", "provider")
+		a1 := gabs.New()
+		a1.Set("oauth", "type")
+		a1.Set(*p, "config", "provider")
 
 		// Create request entry
 		r := gabs.New()
-		r.ArrayAppend(a.Data(), "actions")
-		if *o2d != "" {
-			// e := fmt.Sprintf("actions.ngrok.oauth.identity.email.endsWith('%s')", *o2d)
-			// r.Set(e, "expressions")
-		}
-
+		r.ArrayAppend(a1.Data(), "actions")
 		// Append to on_http_request array
 		c.ArrayAppend(r.Data(), "on_http_request")
 
+		if *o2d != "" {
+			dr := gabs.New() // domain rule
+
+			da := gabs.New() // deny action
+			da.Set("deny", "type")
+			da.Set(401, "config", "status_code")
+
+			expression := fmt.Sprintf(
+				"!actions.ngrok.oauth.identity.email.endsWith('%s')",
+				*o2d,
+			)
+
+			dr.ArrayAppend(expression, "expressions")
+			dr.ArrayAppend(da.Data(), "actions")
+
+			// Ajouter la deuxième règle
+			c.ArrayAppend(dr.Data(), "on_http_request")
+		}
+
+		log.Println(c.StringIndent("", "  "))
 	}
 
 	opts = append(opts, ngrok.WithTrafficPolicy(c.String()))
