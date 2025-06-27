@@ -17,11 +17,13 @@ It's **fast** :rocket:, **secured** :lock: and pretty **lite** :mouse2:
 What do you really need ?
 
 ### ngrok token
+
 **https tunneling** (port-forwarding) is provided by [ngrok](https://ngrok.com/) go implementation. So, you **need a ngrok token** :key:
 
 ... if don't have a ngrok account, don't worry, **it's free** :grimacing:
 
 ### docker
+
 If you're familiar with golang, you can build your own server but we recommand to **use our docker image** :whale:
 
 You can download [docker desktop](https://www.docker.com/products/docker-desktop/) and use default settings.
@@ -30,13 +32,12 @@ You can download [docker desktop](https://www.docker.com/products/docker-desktop
 
 Ok, so now, you may have a **ngrok token** and **run docker** on your machine.
 
-### :one: Let's start the server.
+### :one: Let's start the server
 
 Run the following docker command in order to share the content of your local path.
 
 `docker run -it --rm -e NGROK_AUTHTOKEN="YOUR_TOKEN" -v $(pwd):/shared ghcr.io/trendev/ngrok-file-server`
 > this example is based on Linux/MacOS usage. If you run `ngrok-file-server` on Windows, you may change local path command `$(pwd)` by something like `%cd%` or direcly set the path...
-
 > do not forget to replace "YOUR_TOKEN" by your ngrok token...
 
 It will pull our docker image and then, build and start a new container :thumbsup:
@@ -46,12 +47,6 @@ You may see an output like this :
 `ngrok ingress url:  https://2927-90-22-212-26.eu.ngrok.io`
 
 Copy the URL :memo:
-
-#### ... or start the server with a static domain !
-
-At first, you may claim a `static domain` (cf [ngrok static domain](https://ngrok.com/blog-post/free-static-domains-ngrok-users?utm_campaign=Monthly%20Newsletter&utm_medium=email&_hsmi=273371496&_hsenc=p2ANqtz--jWYbTK8jp0_nOfOtdv6J-xx3yPPThs-yue05TvNqnWnV4cddDpbDVOBgfdT9o-xuo6-7UUEBImW1PlHTFoh3ZCmJCtw&utm_content=273371496&utm_source=hs_email))
-
-`docker run -it --rm -e NGROK_AUTHTOKEN="YOUR_TOKEN" -v $(pwd):/shared ghcr.io/trendev/ngrok-file-server --static_domain={your_static_domain}.ngrok-free.app`
 
 This URL is easier to remember, isn't it ?
 
@@ -68,16 +63,16 @@ You can browse your content and share the URL with anyone and access to your fil
 
 You can also control access using an oauth2 provider (like Google, Facebook, Github, Linkedin, etc) and setting an authorized oauth2_domain (for eg, only `trendev.fr` users).
 
-> you can find the supported list [here](https://ngrok.com/docs/cloud-edge/modules/oauth/#oauth-providers-supported-by-ngrok)
+> you can find the [supported list](https://ngrok.com/docs/cloud-edge/modules/oauth/#oauth-providers-supported-by-ngrok)
 
 ### Enable oauth2 authentication
+
 `docker run -it --rm -e NGROK_AUTHTOKEN=$NGROK_AUTHTOKEN -v $(pwd):/shared ghcr.io/trendev/ngrok-file-server --provider=google`
 
 ### Enable oauth2 authentication + oauth2_domain control
+
 `docker run -it --rm -e NGROK_AUTHTOKEN=$NGROK_AUTHTOKEN -v $(pwd):/shared ghcr.io/trendev/ngrok-file-server --provider=google --oauth2_domain=trendev.fr`
 
 ## :hand: Something else ?
 
 If you need more, you can open an issue and describe your requirement... and BTW, you can also star the repo :wink:
-
-
