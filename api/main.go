@@ -47,7 +47,7 @@ func main() {
 	fmt.Println("ngrok ingress url: ", l.URL())
 	http.Serve(l, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		colorlog.LogRequest(*r)
-		w.Header().Add("x-ngrok-file-server", "trendev")
+		w.Header().Add("x-ngrok-file-server", "trendev.fr")
 		ww := colorlog.NewResponseWriterWrapper(w)
 		fs.ServeHTTP(ww, r)
 		colorlog.LogResponse(*ww, r)
