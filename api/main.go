@@ -2,11 +2,12 @@ package main
 
 import (
 	"context"
-	"encoding/json"
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
 
+	"github.com/Jeffail/gabs/v2"
 	"github.com/trendev/ngrok-file-server/pkg/colorlog"
 	"golang.ngrok.com/ngrok/v2"
 )
@@ -31,50 +32,40 @@ const config = `
         }
       ]
     }
-  ],
-  "on_http_request": [
-    {
-      "actions": [
-        {
-          "type": "oauth",
-          "config": {
-            "provider": "google"
-          }
-        }
-      ]
-    }
   ]
 }`
 
 func setConfigHTTPEndpoint() []ngrok.EndpointOption {
-	// sd := flag.String("static_domain", "", "ngrok static domain")
-	// p := flag.String("provider", "", "oauth2 provider")
-	// o2d := flag.String("oauth2_domain", "", "oauth2 authorized oauth2_domain")
-	// flag.Parse()
 	var opts []ngrok.EndpointOption
-	var c map[string]interface{}
+	p := flag.String("provider", "", "oauth2 provider")
+	o2d := flag.String("oauth2_domain", "", "oauth2 authorized oauth2_domain")
+	flag.Parse()
 
-	err := json.Unmarshal([]byte(config), &c)
+	c, err := gabs.ParseJSON([]byte(config))
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// if *sd != "" {
-	// 	opts = append(opts, config.WithDomain(*sd))
-	// }
-	// if *p != "" {
-	// 	if *o2d != "" {
-	// 		opts = append(opts, config.WithOAuth(*p, config.WithAllowOAuthDomain(*o2d)),
-	// 			config.WithRequestHeader("email", "${.oauth.user.email}"))
-	// 	} else {
-	// 		opts = append(opts, config.WithOAuth(*p), config.WithRequestHeader("email", "${.oauth.user.email}"))
-	// 	}
-	// }
-	tp, err := json.Marshal(c)
-	if err != nil {
-		log.Fatal(err)
+	if *p != "" {
+		// Create OAuth action structure
+		a := gabs.New()
+		a.Set("oauth", "type")
+		a.Set(*p, "config", "provider")
+
+		// Create request entry
+		r := gabs.New()
+		r.ArrayAppend(a.Data(), "actions")
+		if *o2d != "" {
+			// e := fmt.Sprintf("actions.ngrok.oauth.identity.email.endsWith('%s')", *o2d)
+			// r.Set(e, "expressions")
+		}
+
+		// Append to on_http_request array
+		c.ArrayAppend(r.Data(), "on_http_request")
+
 	}
-	opts = append(opts, ngrok.WithTrafficPolicy(string(tp)))
+
+	opts = append(opts, ngrok.WithTrafficPolicy(c.String()))
 	return opts
 }
 

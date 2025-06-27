@@ -4,6 +4,8 @@ go 1.24
 
 require golang.ngrok.com/ngrok/v2 v2.0.0
 
+require github.com/Jeffail/gabs/v2 v2.7.0
+
 require (
 	github.com/go-stack/stack v1.8.1 // indirect
 	github.com/inconshreveable/log15 v3.0.0-testing.5+incompatible // indirect
