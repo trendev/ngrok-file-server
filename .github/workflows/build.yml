@@ -50,7 +50,7 @@ jobs:
         with:
           name: code-coverage
           path: ./coverage*.html
-          retention-days: 30
+          retention-days: 5
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
